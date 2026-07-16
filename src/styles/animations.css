@@ -1,0 +1,110 @@
+/* ===== 댄싱 키프레임 ===== */
+
+@keyframes dance {
+  0%   { transform: translateY(0) rotate(0deg) scale(1); }
+  10%  { transform: translateY(-18px) rotate(-8deg) scale(1.05); }
+  20%  { transform: translateY(-8px) rotate(6deg) scale(1.02); }
+  30%  { transform: translateY(-22px) rotate(-5deg) scale(1.08); }
+  40%  { transform: translateY(-5px) rotate(9deg) scale(1.03); }
+  50%  { transform: translateY(-25px) rotate(0deg) scale(1.1); }
+  60%  { transform: translateY(-5px) rotate(-9deg) scale(1.03); }
+  70%  { transform: translateY(-22px) rotate(5deg) scale(1.08); }
+  80%  { transform: translateY(-8px) rotate(-6deg) scale(1.02); }
+  90%  { transform: translateY(-18px) rotate(8deg) scale(1.05); }
+  100% { transform: translateY(0) rotate(0deg) scale(1); }
+}
+
+@keyframes shadow-pulse {
+  0%, 100% { transform: scaleX(1);   opacity: 0.3; }
+  50%       { transform: scaleX(0.6); opacity: 0.15; }
+}
+
+@keyframes note-float {
+  0%   { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
+  20%  { opacity: 1; }
+  100% { transform: translateY(-80px) translateX(var(--drift, 20px)) scale(1.2); opacity: 0; }
+}
+
+@keyframes shimmer {
+  0%   { box-shadow: 0 0 20px rgba(255, 107, 157, 0.3); }
+  50%  { box-shadow: 0 0 50px rgba(255, 107, 157, 0.7), 0 0 80px rgba(255, 215, 0, 0.3); }
+  100% { box-shadow: 0 0 20px rgba(255, 107, 157, 0.3); }
+}
+
+/* ===== 댄싱 캣 래퍼 ===== */
+
+.dancing-cat-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.dancing-cat {
+  position: relative;
+  display: inline-flex;
+  will-change: transform;
+  cursor: pointer;
+  border-radius: 50%;
+  outline: none;
+}
+
+.dancing-cat:focus-visible {
+  outline: 3px solid #ffd700;
+  outline-offset: 8px;
+  border-radius: 50%;
+}
+
+.dancing-cat.dancing {
+  animation: dance var(--dance-duration, 0.8s) ease-in-out infinite,
+             shimmer calc(var(--dance-duration, 0.8s) * 2) ease-in-out infinite;
+}
+
+.dancing-cat.paused {
+  animation: none;
+  transform: translateY(0) rotate(0deg) scale(1);
+}
+
+.cat-image {
+  width: 180px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 4px 12px rgba(255, 159, 67, 0.5));
+}
+
+/* ===== 그림자 ===== */
+
+.cat-shadow {
+  width: 120px;
+  height: 18px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.cat-shadow.shadow-dancing {
+  animation: shadow-pulse var(--dance-duration, 0.8s) ease-in-out infinite;
+}
+
+/* ===== 음표 파티클 ===== */
+
+.music-notes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.note {
+  position: absolute;
+  font-size: 1.4rem;
+  color: var(--secondary, #ffd700);
+  animation: note-float 1.6s ease-out infinite;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+}
+
+.note-1 { top: 20%; left: -20px;  animation-delay: 0s;    --drift: -25px; }
+.note-2 { top: 10%; right: -20px; animation-delay: 0.4s;  --drift:  25px; }
+.note-3 { top: 40%; left: -30px;  animation-delay: 0.8s;  --drift: -15px; }
+.note-4 { top: 5%;  right: -15px; animation-delay: 1.2s;  --drift:  20px; }
